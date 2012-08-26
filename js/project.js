@@ -1,33 +1,36 @@
 var width = window.innerWidth;
 var height = window.innerHeight;
+var target = V3.$(0,0,0);
 
-var fish = new Array(1);
-for (var i = 0; i < fish.length; i++) {
-	fish[i] = new Fish(width, height);
+var shoal = new Array(1);
+for (var i = 0; i < shoal.length; i++) {
+	shoal[i] = new Fish(width, height);
 }
 
-var svg = d3.select("#tank")
-			.append("svg").attr("width", width)
+var tank = d3.select("#tank")
+			.append("svg")
+			.attr("width", width)
 			.attr("height", height);
 
 
-var circles = svg.selectAll("circle")
-				 .data(fish)
+var fish = tank.selectAll("fish")
+				 .data(shoal)
 				 .enter()
 				 .append("circle")
 				 .attr("fill", "steelblue");
 
-circles.attr("cx", function(d, i) {return d.getPositionX();})
-	   .attr("cy", function(d, i) {return d.getPositionY();})
-	   .attr("r", function(d, i) {return d.getSize();})
+fish.attr("cx", function(d, i) {return d.getPosition()[0];})
+	.attr("cy", function(d, i) {return d.getPosition()[1];})
+	.attr("r", function(d, i) {return d.getSize();})
   
 d3.timer(function() {
-	circles.transition()
-		   .attr("cx", function (d,i) {d.setPositionX(d.getPositionX() + 10); return d.getPositionX();})
-		   .delay(500);
+	for (var i = 0; i < shoal.length; i++) {
+		shoal[i].move(target);
+	}
+	fish.attr("cx", function (d,i) {return d.getPosition()[0];});
+	fish.attr("cy", function (d,i) {return d.getPosition()[1];});
 });
 
 $("svg").mousemove(function(event) {
-	event.pageX;
-	event.pageY;
+	target = V3.$(event.pageX, event.pageY, 0);
 });
