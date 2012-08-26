@@ -1,26 +1,7 @@
 var width = window.innerWidth;
 var height = window.innerHeight;
 
-function Fish (width, height) {
-    this.positionX= Math.floor(Math.random() * width);
-    this.positionY = Math.floor(Math.random() * height);
-    this.size = 15;
-}
-
-Fish.prototype.getPositionX = function() {
-    return this.positionX;
-};
-Fish.prototype.setPositionX = function(positionX) {
-    this.positionX = positionX;
-};
-Fish.prototype.getPositionY = function() {
-    return this.positionY;
-};
-Fish.prototype.getSize = function() {
-    return this.size;
-};
-
-var fish = new Array(20);
+var fish = new Array(1);
 for (var i = 0; i < fish.length; i++) {
 	fish[i] = new Fish(width, height);
 }
@@ -44,4 +25,9 @@ d3.timer(function() {
 	circles.transition()
 		   .attr("cx", function (d,i) {d.setPositionX(d.getPositionX() + 10); return d.getPositionX();})
 		   .delay(500);
+});
+
+$("svg").mousemove(function(event) {
+	event.pageX;
+	event.pageY;
 });
